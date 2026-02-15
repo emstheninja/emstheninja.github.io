@@ -7,7 +7,6 @@ function generateSheet() {
   let dataArrayFormatted = ""
   document.getElementById("id01").innerHTML = ""
   var xmlhttp = new XMLHttpRequest();
-  sheetUrl = document.getElementById("sheetUrl").value;
 
   var url = "https://sheets.googleapis.com/v4/spreadsheets/" + sheetCode + "/values/" + sheetForm + "?key=" + googleSheetsKey
 
@@ -49,3 +48,7 @@ function generateSheet() {
   xmlhttp.open("GET", url)
   xmlhttp.send()
 }
+
+window.onload = function() {
+  generateSheet();
+};
