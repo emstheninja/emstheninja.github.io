@@ -1,0 +1,2 @@
+# local config file containing API key (create locally and do not commit)
+config.local.js
