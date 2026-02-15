@@ -75,7 +75,7 @@ function generateSheet() {
         item.style.left = pct + '%';
         item.setAttribute('data-pct', pct);
         item.setAttribute('data-index', i);
-        item.title = `${u.name}: ${u.books} books (${pct}%)`;
+        item.title = `${u.name}: ${u.books}`;
 
         const emoji = document.createElement('span');
         emoji.className = 'duck-emoji';
