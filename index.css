@@ -30,6 +30,11 @@ td {
     border-radius: 2px;
 }
 
+/* ensure ducks positioned above the track remain visible */
+#duck-track {
+    overflow: visible;
+}
+
 #duck {
     position: absolute;
     top: -24px;

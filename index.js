@@ -50,8 +50,8 @@ function generateSheet() {
         newRow.addEventListener('click', () => highlightDuck(rowIndex));
       }
 
-      // compute maximum (avoid division by zero)
-      const maxBooks = users.length ? Math.max(...users.map(u => u.books), 1) : 1;
+      // set maximum scale to 30 (fixed)
+      const maxBooks = 30;
 
       // create bottom duck strip and track
       let duckStrip = document.getElementById('duck-strip');
@@ -89,6 +89,10 @@ function generateSheet() {
         item.appendChild(label);
         track.appendChild(item);
 
+        // stagger vertically so multiple ducks at same percent remain visible
+        const rowOffset = (i % 6) * 18; // up to 6 stagger rows
+        item.style.top = (-28 - rowOffset) + 'px';
+        item.style.zIndex = 1000 + (i % 6);
         item.addEventListener('click', () => highlightDuck(i));
       });
 
