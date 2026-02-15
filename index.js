@@ -1,11 +1,8 @@
 function generateSheet() {
-  let sheetUrl = ""
   let sheetCode = "1Q7G1zLCa-K6Py4jfazyeFEiCKsGFSyD6Ln0znLvIjCY"
   let sheetForm = "Overview!A1:F8"
   let googleSheetsKey = "AIzaSyAo1G7vJX6pPOg7nV0poq7dyY4UX5m4o8M"
-  let dataArray = []
-  let dataArrayFormatted = ""
-  document.getElementById("id01").innerHTML = ""
+
   var xmlhttp = new XMLHttpRequest();
 
   var url = "https://sheets.googleapis.com/v4/spreadsheets/" + sheetCode + "/values/" + sheetForm + "?key=" + googleSheetsKey
@@ -23,8 +20,8 @@ function generateSheet() {
       tableBody.innerHTML = "";
 
       // Create the header row using the first row of the data
-        const headerRow = document.createElement("tr");
-        tableBody.appendChild(headerRow);
+      const headerRow = document.createElement("tr");
+      tableBody.appendChild(headerRow);
       for (const row of arr.values[0]) {
 
         const newCell = document.createElement("td");
@@ -45,10 +42,11 @@ function generateSheet() {
       }
     }
   }
+
   xmlhttp.open("GET", url)
   xmlhttp.send()
 }
 
-window.onload = function() {
+window.onload = function () {
   generateSheet();
 };
