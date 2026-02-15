@@ -104,6 +104,21 @@ function generateSheet() {
         if (sel) sel.classList.add('selected');
       };
 
+      // scale the duck strip to fit the ducks' height so each duck is visible
+      (function adjustDuckStripHeight() {
+        const items = track.querySelectorAll('.duck-item');
+        let minTop = 0;
+        let maxBottom = track.offsetHeight || 4;
+        items.forEach(it => {
+          const top = parseInt(it.style.top, 10) || 0;
+          minTop = Math.min(minTop, top);
+          maxBottom = Math.max(maxBottom, top + it.offsetHeight);
+        });
+        const total = Math.abs(minTop) + maxBottom;
+        // add small padding
+        duckStrip.style.height = (total + 12) + 'px';
+      })();
+
       // default to first user
       if (users.length) highlightDuck(0);
     }
