@@ -1,90 +1,91 @@
 td {
-  background-color: pink;
+    background-color: pink;
 }
+
 #header {
-  background-color: lightblue;
+    background-color: lightblue;
 }
 
 /* Duck progress strip */
 #duck-strip {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 100px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(240,240,240,0.95));
-  display: flex;
-  align-items: center;
-  z-index: 9999;
-  box-shadow: 0 -2px 6px rgba(0,0,0,0.08);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.95));
+    display: flex;
+    align-items: center;
+    z-index: 9999;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
 }
 
 #duck-track {
-  position: relative;
-  width: 90%;
-  max-width: 1200px;
-  height: 4px;
-  background: rgba(0,0,0,0.08);
-  margin: 0 auto;
-  border-radius: 2px;
+    position: relative;
+    width: 90%;
+    max-width: 1200px;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.08);
+    margin: 0 auto;
+    border-radius: 2px;
 }
 
 #duck {
-  position: absolute;
-  top: -24px;
-  left: 0%;
-  transform: translateX(-50%);
-  transition: left 900ms cubic-bezier(.22,.9,.3,1);
-  font-size: 36px;
-  pointer-events: none;
+    position: absolute;
+    top: -24px;
+    left: 0%;
+    transform: translateX(-50%);
+    transition: left 900ms cubic-bezier(.22, .9, .3, 1);
+    font-size: 36px;
+    pointer-events: none;
 }
 
 /* Small label showing percent (optional) */
 #duck::after {
-  content: attr(data-pct) "%";
-  display: block;
-  font-size: 12px;
-  color: #333;
-  text-align: center;
-  margin-top: 6px;
+    content: attr(data-pct) "%";
+    display: block;
+    font-size: 12px;
+    color: #333;
+    text-align: center;
+    margin-top: 6px;
 }
 
 /* Multiple ducks: one per reader */
 .duck-item {
-  position: absolute;
-  top: -28px;
-  transform: translateX(-50%);
-  transition: transform 300ms ease, top 300ms ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  pointer-events: auto;
-  cursor: pointer;
+    position: absolute;
+    top: -28px;
+    transform: translateX(-50%);
+    transition: transform 300ms ease, top 300ms ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 .duck-emoji {
-  font-size: 28px;
-  line-height: 1;
+    font-size: 28px;
+    line-height: 1;
 }
 
 .duck-name {
-  font-size: 12px;
-  background: rgba(255,255,255,0.95);
-  padding: 2px 8px;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-  white-space: nowrap;
+    font-size: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2px 8px;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    white-space: nowrap;
 }
 
 .duck-item.selected {
-  transform: translateX(-50%) translateY(-10px);
+    transform: translateX(-50%) translateY(-10px);
 }
 
 .duck-item::after {
-  content: attr(data-pct) "%";
-  display: block;
-  font-size: 10px;
-  color: #333;
-  text-align: center;
-  margin-top: 6px;
+    content: attr(data-pct) "%";
+    display: block;
+    font-size: 10px;
+    color: #333;
+    text-align: center;
+    margin-top: 6px;
 }
