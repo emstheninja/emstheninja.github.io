@@ -68,7 +68,7 @@ function generateSheet() {
       track.innerHTML = '';
 
       // create one duck per user, positioned according to progress
-      users.forEach((u, i) => {
+      users.slice(0,-1).forEach((u, i) => {
         const pct = Math.min(100, Math.round((u.books / maxBooks) * 100));
         const item = document.createElement('div');
         item.className = 'duck-item';
