@@ -12,9 +12,9 @@ td {
     left: 0;
     right: 0;
     bottom: 0;
-    height: auto;
+    height: 350px;
     padding: 6px 0 12px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.95));
+    background: linear-gradient(180deg, rgba(70, 88, 255, 0.9), rgba(82, 203, 233, 0.95));
     display: flex;
     align-items: flex-end;
     z-index: 9999;

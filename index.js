@@ -90,7 +90,7 @@ function generateSheet() {
         track.appendChild(item);
 
         // stagger vertically so multiple ducks at same percent remain visible
-        const rowOffset = (i % 6) * 18; // up to 6 stagger rows
+        const rowOffset = (i % 6) * 50; // up to 6 stagger rows
         item.style.top = (-28 - rowOffset) + 'px';
         item.style.zIndex = 1000 + (i % 6);
         item.addEventListener('click', () => highlightDuck(i));
