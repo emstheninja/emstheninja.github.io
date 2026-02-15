@@ -1,3 +1,50 @@
 td {
   background-color: pink;
 }
+#header {
+  background-color: lightblue;
+}
+
+/* Duck progress strip */
+#duck-strip {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(240,240,240,0.95));
+  display: flex;
+  align-items: center;
+  z-index: 9999;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.08);
+}
+
+#duck-track {
+  position: relative;
+  width: 90%;
+  max-width: 1200px;
+  height: 4px;
+  background: rgba(0,0,0,0.08);
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+#duck {
+  position: absolute;
+  top: -24px;
+  left: 0%;
+  transform: translateX(-50%);
+  transition: left 900ms cubic-bezier(.22,.9,.3,1);
+  font-size: 36px;
+  pointer-events: none;
+}
+
+/* Small label showing percent (optional) */
+#duck::after {
+  content: attr(data-pct) "%";
+  display: block;
+  font-size: 12px;
+  color: #333;
+  text-align: center;
+  margin-top: 6px;
+}

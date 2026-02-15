@@ -31,6 +31,36 @@ function generateSheet() {
         headerRow.appendChild(newCell);
       }
       // Create the data rows using the remaining rows of the data
+      // Prepare duck progress variables and UI
+      const usersBooks = [];
+      let maxBooks = 1;
+
+      // create bottom duck strip if it doesn't exist
+      let duckStrip = document.getElementById('duck-strip');
+      if (!duckStrip) {
+        duckStrip = document.createElement('div');
+        duckStrip.id = 'duck-strip';
+        const track = document.createElement('div');
+        track.id = 'duck-track';
+        const duck = document.createElement('div');
+        duck.id = 'duck';
+        duck.textContent = '🦆';
+        track.appendChild(duck);
+        duckStrip.appendChild(track);
+        document.body.appendChild(duckStrip);
+      }
+
+      // moveDuckTo uses maxBooks which we'll compute after collecting all users
+      const moveDuckTo = (books) => {
+        const pct = Math.min(100, Math.round((books / maxBooks) * 100));
+        const duck = document.getElementById('duck');
+        if (duck) {
+          duck.style.left = pct + '%';
+          duck.setAttribute('data-pct', pct);
+        }
+      };
+
+      // Create the data rows using the remaining rows of the data
       for (const datum of arr.values.slice(1)) {
         const newRow = document.createElement("tr");
         tableBody.appendChild(newRow);
@@ -39,6 +69,16 @@ function generateSheet() {
           newCell.textContent = value;
           newRow.appendChild(newCell);
         }
+        const books = Number(datum[1]) || 0;
+        usersBooks.push(books);
+        newRow.style.cursor = 'pointer';
+        newRow.addEventListener('click', () => moveDuckTo(books));
+      }
+
+      // compute maximum and set default duck position to first user (if any)
+      if (usersBooks.length) {
+        maxBooks = Math.max(...usersBooks, 1);
+        moveDuckTo(usersBooks[0]);
       }
     }
   }
