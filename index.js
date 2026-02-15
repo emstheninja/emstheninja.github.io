@@ -69,10 +69,11 @@ function generateSheet() {
 
       // create one duck per user, positioned according to progress
       users.forEach((u, i) => {
+        const pct = Math.min(100, Math.round((u.books / maxBooks) * 100));
         const item = document.createElement('div');
         item.className = 'duck-item';
-        item.style.left = u.books;
-        item.setAttribute('data-pct', pct);
+        item.style.left = pct + '%';
+        item.setAttribute('data-pct', u.books);
         item.setAttribute('data-index', i);
         item.title = `${u.name}: ${u.books}`;
 
