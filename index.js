@@ -31,36 +31,9 @@ function generateSheet() {
         headerRow.appendChild(newCell);
       }
       // Create the data rows using the remaining rows of the data
-      // Prepare duck progress variables and UI
-      const usersBooks = [];
-      let maxBooks = 1;
+      // Build users list from sheet rows
+      const users = [];
 
-      // create bottom duck strip if it doesn't exist
-      let duckStrip = document.getElementById('duck-strip');
-      if (!duckStrip) {
-        duckStrip = document.createElement('div');
-        duckStrip.id = 'duck-strip';
-        const track = document.createElement('div');
-        track.id = 'duck-track';
-        const duck = document.createElement('div');
-        duck.id = 'duck';
-        duck.textContent = '🦆';
-        track.appendChild(duck);
-        duckStrip.appendChild(track);
-        document.body.appendChild(duckStrip);
-      }
-
-      // moveDuckTo uses maxBooks which we'll compute after collecting all users
-      const moveDuckTo = (books) => {
-        const pct = Math.min(100, Math.round((books / maxBooks) * 100));
-        const duck = document.getElementById('duck');
-        if (duck) {
-          duck.style.left = pct + '%';
-          duck.setAttribute('data-pct', pct);
-        }
-      };
-
-      // Create the data rows using the remaining rows of the data
       for (const datum of arr.values.slice(1)) {
         const newRow = document.createElement("tr");
         tableBody.appendChild(newRow);
@@ -69,17 +42,66 @@ function generateSheet() {
           newCell.textContent = value;
           newRow.appendChild(newCell);
         }
+        const name = datum[0] || 'Unknown';
         const books = Number(datum[1]) || 0;
-        usersBooks.push(books);
+        users.push({ name, books });
         newRow.style.cursor = 'pointer';
-        newRow.addEventListener('click', () => moveDuckTo(books));
+        const rowIndex = users.length - 1;
+        newRow.addEventListener('click', () => highlightDuck(rowIndex));
       }
 
-      // compute maximum and set default duck position to first user (if any)
-      if (usersBooks.length) {
-        maxBooks = Math.max(...usersBooks, 1);
-        moveDuckTo(usersBooks[0]);
+      // compute maximum (avoid division by zero)
+      const maxBooks = users.length ? Math.max(...users.map(u => u.books), 1) : 1;
+
+      // create bottom duck strip and track
+      let duckStrip = document.getElementById('duck-strip');
+      if (!duckStrip) {
+        duckStrip = document.createElement('div');
+        duckStrip.id = 'duck-strip';
+        const track = document.createElement('div');
+        track.id = 'duck-track';
+        duckStrip.appendChild(track);
+        document.body.appendChild(duckStrip);
       }
+
+      const track = document.getElementById('duck-track');
+      track.innerHTML = '';
+
+      // create one duck per user, positioned according to progress
+      users.forEach((u, i) => {
+        const pct = Math.min(100, Math.round((u.books / maxBooks) * 100));
+        const item = document.createElement('div');
+        item.className = 'duck-item';
+        item.style.left = pct + '%';
+        item.setAttribute('data-pct', pct);
+        item.setAttribute('data-index', i);
+        item.title = `${u.name}: ${u.books} books (${pct}%)`;
+
+        const emoji = document.createElement('span');
+        emoji.className = 'duck-emoji';
+        emoji.textContent = '🦆';
+
+        const label = document.createElement('span');
+        label.className = 'duck-name';
+        label.textContent = u.name;
+
+        item.appendChild(emoji);
+        item.appendChild(label);
+        track.appendChild(item);
+
+        item.addEventListener('click', () => highlightDuck(i));
+      });
+
+      // highlight function to visually indicate selected duck
+      const highlightDuck = (index) => {
+        const items = document.querySelectorAll('.duck-item');
+        items.forEach(it => it.classList.remove('selected'));
+        const sel = document.querySelector('.duck-item[data-index="' + index + '"]');
+        if (sel) sel.classList.add('selected');
+      };
+
+      // default to first user
+      if (users.length) highlightDuck(0);
     }
   }
 

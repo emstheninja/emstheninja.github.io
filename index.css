@@ -48,3 +48,43 @@ td {
   text-align: center;
   margin-top: 6px;
 }
+
+/* Multiple ducks: one per reader */
+.duck-item {
+  position: absolute;
+  top: -28px;
+  transform: translateX(-50%);
+  transition: transform 300ms ease, top 300ms ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.duck-emoji {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.duck-name {
+  font-size: 12px;
+  background: rgba(255,255,255,0.95);
+  padding: 2px 8px;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  white-space: nowrap;
+}
+
+.duck-item.selected {
+  transform: translateX(-50%) translateY(-10px);
+}
+
+.duck-item::after {
+  content: attr(data-pct) "%";
+  display: block;
+  font-size: 10px;
+  color: #333;
+  text-align: center;
+  margin-top: 6px;
+}
