@@ -55,7 +55,7 @@ function generateSheet() {
 
       // --- Pie chart: total at arr.values[8][0], slices at [8][3],[8][4],[8][5] ---
       const pieRow = (arr.values[8] || []);
-      const pieTotal = Number(pieRow[0]) || 0;
+      const pieTotal = Number(pieRow[1]) || 0;
       const pieSlices = [Number(pieRow[3]) || 0, Number(pieRow[4]) || 0, Number(pieRow[5]) || 0];
 
       let pieContainer = document.getElementById('pie-container');
