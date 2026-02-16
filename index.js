@@ -54,59 +54,63 @@ function generateSheet() {
       // set maximum scale to 30 (fixed)
       const maxBooks = 30;
 
-      // --- Pie chart: total at arr.values[8][0], slices at [8][3],[8][4],[8][5] ---
-      const pieRow = (arr.values[8] || []);
-      const pieTotal = Number(pieRow[1]) || 0;
-      const pieSlices = [Number(pieRow[3]) || 0, Number(pieRow[4]) || 0, Number(pieRow[5]) || 0];
+function getPieData(arr) {
+    const toNum = v => {
+        if (typeof v === "number") return v;
+        if (v == null) return 0;
+        const cleaned = String(v).replace(/[^0-9.\-]/g, "");
+        const n = Number(cleaned);
+        return Number.isFinite(n) ? n : 0;
+    };
 
-      let pieContainer = document.getElementById('pie-container');
-      if (!pieContainer) {
-        pieContainer = document.createElement('div');
-        pieContainer.id = 'pie-container';
-        pieContainer.style.display = 'flex';
-        pieContainer.style.justifyContent = 'center';
-        pieContainer.style.margin = '12px 0';
-        const canvas = document.createElement('canvas');
-        canvas.id = 'pie-chart';
-        canvas.width = 200;
-        canvas.height = 200;
-        pieContainer.appendChild(canvas);
-        document.body.appendChild(pieContainer);
-      }
+    const total = toNum(arr.values?.[8]?.[1]);
 
-      const canvas = document.getElementById('pie-chart');
-      if (canvas && canvas.getContext) {
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const totalSlices = pieSlices.reduce((a, b) => a + b, 0) || 1;
-        const cx = canvas.width / 2;
-        const cy = canvas.height / 2;
-        const radius = Math.min(cx, cy) - 10;
-        let start = -0.5 * Math.PI;
-        const colors = ['#4CAF50', '#FF9800', '#2196F3'];
-        for (let i = 0; i < pieSlices.length; i++) {
-          const value = pieSlices[i];
-          const angle = (value / totalSlices) * Math.PI * 2;
-          ctx.beginPath();
-          ctx.moveTo(cx, cy);
-          ctx.arc(cx, cy, radius, start, start + angle);
-          ctx.closePath();
-          ctx.fillStyle = colors[i % colors.length];
-          ctx.fill();
-          start += angle;
-        }
+    const values = [
+        toNum(arr.values?.[8]?.[3]),
+        toNum(arr.values?.[8]?.[4]),
+        toNum(arr.values?.[8]?.[5])
+    ].map(v => Math.max(0, v));
 
-        // draw inner white circle for donut effect and show total
+    const sum = values.reduce((a, b) => a + b, 0);
+
+    if (total <= 0 || sum === 0) {
+        return {
+            total,
+            slices: [0, 0, 0],
+            angles: [0, 0, 0]
+        };
+    }
+
+    // scale slices to total
+    const scaled = values.map(v => (v / sum) * total);
+    const angles = scaled.map(v => (v / total) * (Math.PI * 2));
+
+    return {
+        total,
+        slices: scaled,
+        angles
+    };
+}
+function drawPie(ctx, pieData, cx, cy, r) {
+    const colors = ["#4e79a7", "#f28e2b", "#e15759"];
+
+    let start = -Math.PI / 2;
+
+    pieData.angles.forEach((angle, i) => {
+        const end = start + angle;
+
         ctx.beginPath();
-        ctx.fillStyle = '#ffffff';
-        ctx.arc(cx, cy, radius * 0.55, 0, Math.PI * 2);
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, r, start, end);
+        ctx.closePath();
+        ctx.fillStyle = colors[i];
         ctx.fill();
-        ctx.fillStyle = '#000000';
-        ctx.font = 'bold 16px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(pieTotal, cx, cy);
-      }
+
+        start = end;
+    });
+}
+const pie = getPieData(arr);
+drawPie(ctx, pie, 150, 150, 120);
 
       // create bottom duck strip and track
       let duckStrip = document.getElementById('duck-strip');
